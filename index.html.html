@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahil Hussain J | Software Developer & Computer Science Engineer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0f172a',
+                            900: '#0b1120',
+                            950: '#050811',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b1120;
+            color: #f3f4f6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b1120;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Glassmorphism utility */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Toast animation */
+        @keyframes slideIn {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-in {
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* =========================================================
+           PRINT STYLESHEET - DEDICATED SINGLE PAGE A4 RESUME
+           ========================================================= */
+        #resume-print-document {
+            display: none;
+        }
+
+        @media print {
+            /* Hide entire interactive web app */
+            body > *:not(#resume-print-document) {
+                display: none !important;
+            }
+
+            /* Show strictly the print resume engine */
+            #resume-print-document {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 12mm 15mm;
+                background-color: #ffffff !important;
+                color: #0f172a !important;
+                font-family: 'Inter', sans-serif;
+                box-sizing: border-box;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-gray-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-slate-950">
+
+    <header class="fixed top-0 left-0 right-0 z-40 glass-card border-b border-slate-800/80">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <a href="#hero" class="flex items-center space-x-3 group">
+                <img id="nav-avatar" src="./profile.png" alt="Ahil Hussain J" class="w-9 h-9 rounded-full object-cover object-center ring-2 ring-emerald-500/50 group-hover:ring-emerald-400 transition" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%230f172a\'/><circle cx=\'50\' cy=\'38\' r=\'20\' fill=\'%2310b981\'/><path d=\'M20 88 C 20 65, 80 65, 80 88\' fill=\'%2310b981\'/></svg>';">
+                <span class="text-base font-bold tracking-tight text-white group-hover:text-emerald-400 transition">Ahil Hussain J</span>
+            </a>
+            
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center space-x-7 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-emerald-400 transition">About</a>
+                <a href="#skills" class="hover:text-emerald-400 transition">Skills</a>
+                <a href="#experience" class="hover:text-emerald-400 transition">Experience</a>
+                <a href="#projects" class="hover:text-emerald-400 transition">Projects</a>
+                <a href="#education" class="hover:text-emerald-400 transition">Education</a>
+                <a href="#certifications" class="hover:text-emerald-400 transition">Certifications</a>
+                <a href="#contact" class="hover:text-emerald-400 transition">Contact</a>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="window.print()" class="hidden sm:inline-flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold px-3.5 py-1.5 rounded-lg text-xs transition shadow-md shadow-emerald-500/20 active:scale-95">
+                    <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                    <span>Download Résumé</span>
+                </button>
+
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-slate-800 transition">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-navy-950 px-4 pt-3 pb-5 space-y-3">
+            <a href="#about" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">About</a>
+            <a href="#skills" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Skills</a>
+            <a href="#experience" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Experience</a>
+            <a href="#projects" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Projects</a>
+            <a href="#education" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Education</a>
+            <a href="#certifications" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Certifications</a>
+            <a href="#contact" class="mobile-link block text-sm font-medium text-gray-300 hover:text-emerald-400">Contact</a>
+            <button onclick="window.print()" class="w-full flex items-center justify-center space-x-2 bg-emerald-500 text-slate-950 font-semibold py-2 rounded-lg text-xs transition">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                <span>Download Résumé (A4)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="flex-grow pt-24 pb-16 space-y-24">
+        
+        <section id="hero" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Text Intro -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>Entry-Level Software Engineer</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">Ahil Hussain J</span>
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl">
+                        Enthusiastic Computer Science Engineering student focused on building scalable, clean, and efficient web applications and backend systems with Java and web technologies.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-wrap gap-3.5 pt-2">
+                        <a href="#projects" class="inline-flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold px-5 py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20 active:scale-95">
+                            <span>View My Work</span>
+                            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                        </a>
+                        <button onclick="window.print()" class="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white font-medium px-5 py-2.5 rounded-xl border border-slate-700 transition active:scale-95">
+                            <i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>
+                            <span>Download Résumé</span>
+                        </button>
+                        <a href="#contact" class="inline-flex items-center space-x-2 bg-navy-800 hover:bg-slate-800 text-gray-300 font-medium px-5 py-2.5 rounded-xl border border-slate-800 transition">
+                            <span>Contact Me</span>
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <!-- Contact & Social Badges -->
+                    <div class="pt-6 border-t border-slate-800/80 flex flex-wrap items-center gap-6 text-sm text-gray-400">
+                        <a href="https://linkedin.com/in/ahil-hussain-45515b2a4" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 hover:text-emerald-400 transition">
+                            <i data-lucide="linkedin" class="w-4 h-4 text-emerald-400"></i>
+                            <span>LinkedIn Profile</span>
+                        </a>
+                        <a href="https://github.com/ahilhussain67-ui" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 hover:text-emerald-400 transition">
+                            <i data-lucide="github" class="w-4 h-4 text-emerald-400"></i>
+                            <span>GitHub Repositories</span>
+                        </a>
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-emerald-400"></i>
+                            <span>Coimbatore, Tamil Nadu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Profile Photograph Card -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative group w-72 sm:w-80">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                        <div class="relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden shadow-2xl">
+                            <img id="hero-avatar" src="./profile.png" alt="Ahil Hussain J" class="w-full h-96 object-cover object-center transition duration-500 group-hover:scale-105" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%230f172a\'/><circle cx=\'50\' cy=\'38\' r=\'20\' fill=\'%2310b981\'/><path d=\'M20 88 C 20 65, 80 65, 80 88\' fill=\'%2310b981\'/></svg>';">
+                            <div class="p-4 bg-slate-900/95 backdrop-blur border-t border-slate-800 text-center">
+                                <h3 class="font-bold text-white text-base">Ahil Hussain J</h3>
+                                <p class="text-xs text-emerald-400 font-medium mt-0.5">B.E. Computer Science & Engineering</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="user" class="text-emerald-400 w-6 h-6"></i>
+                    <span>About Me</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4 text-gray-300 leading-relaxed text-sm sm:text-base">
+                    <p class="font-medium text-white">
+                        Career Objective:
+                    </p>
+                    <p>
+                        Enthusiastic and self-motivated Computer Science Engineering student with a strong interest in web development and backend systems. Skilled in building scalable, clean, and efficient applications with a focus on problem-solving and continuous learning, seeking an entry-level Software Engineer role to contribute to real-world projects and open-source development.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                    <h3 class="text-base font-semibold text-white border-b border-slate-800 pb-2">Quick Bio</h3>
+                    <div class="space-y-3 text-sm text-gray-300">
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <span>Coimbatore, Tamil Nadu</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="languages" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <span>English, Tamil</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="phone" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <span>+91-94875 40741</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i data-lucide="mail" class="w-4 h-4 text-emerald-400 shrink-0"></i>
+                            <span class="truncate">ahilhussain67@gmail.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="code" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Technical Skills</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Skill Group 1 -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+                        <i data-lucide="file-code" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Languages</h3>
+                    <p class="text-xs text-gray-400 mb-4">Core languages used for core logic and frontend structure.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">Java</span>
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">HTML</span>
+                    </div>
+                </div>
+
+                <!-- Skill Group 2 -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+                        <i data-lucide="layers" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Focus Areas</h3>
+                    <p class="text-xs text-gray-400 mb-4">Domains of primary concentration and practical application.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">Web Development</span>
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">Backend Basics</span>
+                    </div>
+                </div>
+
+                <!-- Skill Group 3 -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+                        <i data-lucide="brain" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-white mb-2">Core Concepts</h3>
+                    <p class="text-xs text-gray-400 mb-4">Foundational computational and analytical competencies.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">Coding & Problem Solving</span>
+                        <span class="px-3 py-1 text-xs rounded-lg bg-slate-800 text-gray-200 border border-slate-700">Data Analysis (Beginner)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="briefcase" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Experience</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition space-y-3">
+                <div class="flex flex-wrap justify-between items-start gap-2">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">Java Intern</h3>
+                        <p class="text-emerald-400 font-medium text-sm">Emglitz</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+                        Internship
+                    </span>
+                </div>
+                <p class="text-sm text-gray-300 leading-relaxed pt-1">
+                    Completed a Java-based software development internship. Gained hands-on practical exposure to Java programming fundamentals, object-oriented concepts, and project-based implementations.
+                </p>
+            </div>
+        </section>
+
+        <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="folder-git-2" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Projects</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between hover:border-emerald-500/30 transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-start gap-2">
+                            <h3 class="text-xl font-bold text-white">Smart Grievance Management System</h3>
+                            <span class="text-xs text-gray-400 px-2.5 py-1 rounded bg-slate-800 shrink-0">Jan 2025 - Aug 2025</span>
+                        </div>
+                        <p class="text-xs text-emerald-400 font-medium">Web-based platform for public complaint submission and tracking</p>
+                        <ul class="space-y-2 text-xs text-gray-300 list-disc list-inside leading-relaxed">
+                            <li>Developed a web-based platform for submitting, tracking, and resolving public complaints.</li>
+                            <li>Implemented real-time status updates, geotagged photo evidence, and admin dashboards.</li>
+                            <li>Integrated secure authentication, database management, and automated notifications to improve resolution efficiency.</li>
+                        </ul>
+                    </div>
+                    <div class="pt-6 mt-4 border-t border-slate-800 flex items-center justify-between">
+                        <div class="flex gap-2">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">HTML</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">Java/Backend</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">Database</span>
+                        </div>
+                        <button onclick="openProjectModal('grievance')" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1">
+                            <span>Details</span>
+                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col justify-between hover:border-emerald-500/30 transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-start gap-2">
+                            <h3 class="text-xl font-bold text-white">Blood Donor Library System</h3>
+                            <span class="text-xs text-gray-400 px-2.5 py-1 rounded bg-slate-800 shrink-0">Feb 2026 - May 2026</span>
+                        </div>
+                        <p class="text-xs text-emerald-400 font-medium">Web application for blood donor records and emergency contact access</p>
+                        <ul class="space-y-2 text-xs text-gray-300 list-disc list-inside leading-relaxed">
+                            <li>Built a web application to manage blood donor records and emergency contact access.</li>
+                            <li>Enabled donor search by blood group and location for faster emergency response.</li>
+                            <li>Implemented user registration, database integration, and admin management features.</li>
+                        </ul>
+                    </div>
+                    <div class="pt-6 mt-4 border-t border-slate-800 flex items-center justify-between">
+                        <div class="flex gap-2">
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">Web App</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">Search System</span>
+                            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-gray-300">Database</span>
+                        </div>
+                        <button onclick="openProjectModal('blood')" class="text-xs text-emerald-400 hover:text-emerald-300 font-semibold inline-flex items-center gap-1">
+                            <span>Details</span>
+                            <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="graduation-cap" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Education</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="space-y-6">
+                <!-- College -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Hindusthan College of Engineering and Technology</h3>
+                        <p class="text-sm text-gray-300 mt-0.5">Bachelor of Engineering, Computer Science • Coimbatore, Tamil Nadu</p>
+                        <p class="text-emerald-400 font-semibold text-xs mt-1.5">CGPA: 7.20 / 10</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-slate-800 text-gray-300 text-xs font-semibold shrink-0">2023 - 2027</span>
+                </div>
+
+                <!-- School -->
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-white">Vetri Vikaas Public School (CBSE)</h3>
+                        <p class="text-sm text-gray-300 mt-0.5">HSC: 63% • SSLC: 77%</p>
+                        <p class="text-gray-400 text-xs mt-1.5">Completed Secondary & Higher Secondary Education</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-slate-800 text-gray-300 text-xs font-semibold shrink-0">2020 - 2023</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="award" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Achievements & Certifications</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-start space-x-4">
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">NPTEL Certification</h3>
+                        <p class="text-sm text-emerald-400 font-medium mt-0.5">Cloud Computing</p>
+                        <p class="text-xs text-gray-400 mt-1">NPTEL Certified Credential in Cloud Computing Fundamentals.</p>
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 flex items-start space-x-4">
+                    <div class="p-2.5 bg-emerald-500/10 text-emerald-400 rounded-xl shrink-0">
+                        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-white text-base">Java Intern Certification</h3>
+                        <p class="text-sm text-emerald-400 font-medium mt-0.5">Emglitz</p>
+                        <p class="text-xs text-gray-400 mt-1">Recognized internship completion for Java-based software development.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="space-y-3 mb-8">
+                <h2 class="text-2xl font-bold text-white tracking-tight flex items-center gap-3">
+                    <i data-lucide="mail" class="text-emerald-400 w-6 h-6"></i>
+                    <span>Get In Touch</span>
+                </h2>
+                <div class="h-1 w-16 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Info cards -->
+                <div class="space-y-6">
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        I am currently seeking an entry-level Software Engineer role to contribute to real-world projects, backend systems, and open-source development. Feel free to contact me directly!
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                            <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Phone</p>
+                                <p class="font-medium text-white text-sm">+91-94875 40741</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                            <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Email</p>
+                                <a href="mailto:ahilhussain67@gmail.com" class="font-medium text-white text-sm hover:text-emerald-400 transition">ahilhussain67@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4 p-4 rounded-xl bg-slate-900/60 border border-slate-800">
+                            <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Location</p>
+                                <p class="font-medium text-white text-sm">Coimbatore, Tamil Nadu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form id="contact-form" onsubmit="handleFormSubmit(event)" class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+                    <div>
+                        <label for="contact-name" class="block text-xs font-medium text-gray-300 mb-1">Your Name</label>
+                        <input type="text" id="contact-name" required placeholder="John Doe" class="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-950 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition">
+                    </div>
+                    <div>
+                        <label for="contact-email" class="block text-xs font-medium text-gray-300 mb-1">Your Email</label>
+                        <input type="email" id="contact-email" required placeholder="john@example.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-950 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition">
+                    </div>
+                    <div>
+                        <label for="contact-message" class="block text-xs font-medium text-gray-300 mb-1">Message</label>
+                        <textarea id="contact-message" rows="4" required placeholder="Hi Ahil, I would like to discuss..." class="w-full px-4 py-2.5 rounded-xl border border-slate-700 bg-slate-950 text-white text-sm focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none transition"></textarea>
+                    </div>
+                    <button type="submit" class="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold text-sm transition shadow-lg shadow-emerald-500/20 active:scale-95 flex items-center justify-center space-x-2">
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800 py-8 bg-navy-950 text-center text-xs text-gray-400">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© 2026 Ahil Hussain J. All rights reserved.</p>
+            <p class="text-gray-400">Computer Science Engineering • Coimbatore, Tamil Nadu</p>
+        </div>
+    </footer>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 space-y-4 relative shadow-2xl">
+            <button onclick="closeProjectModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-1">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 id="modal-title" class="text-xl font-bold text-white"></h3>
+            <p id="modal-duration" class="text-xs text-emerald-400 font-medium"></p>
+            <p id="modal-summary" class="text-sm text-gray-300 leading-relaxed"></p>
+            <div class="space-y-2">
+                <h4 class="text-xs font-semibold text-white uppercase tracking-wider">Key Implementations:</h4>
+                <ul id="modal-bullets" class="space-y-1.5 text-xs text-gray-300 list-disc list-inside leading-relaxed"></ul>
+            </div>
+            <div class="pt-4 flex justify-end">
+                <button onclick="closeProjectModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-emerald-500 text-slate-950 px-5 py-3 rounded-xl font-semibold text-sm shadow-2xl flex items-center space-x-2 animate-slide-in">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span id="toast-message">Message sent successfully!</span>
+    </div>
+
+    <!-- HIDDEN A4 RESUME TEMPLATE (PRINT ONLY) -->
+    <div id="resume-print-document">
+        <!-- Resume Header -->
+        <div style="border-bottom: 2px solid #059669; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h1 style="font-size: 22px; font-weight: 800; color: #0b1120; text-transform: uppercase; margin: 0; letter-spacing: -0.5px;">AHIL HUSSAIN J</h1>
+                <p style="font-size: 11px; font-weight: 600; color: #059669; margin: 2px 0 0 0;">COMPUTER SCIENCE ENGINEERING STUDENT</p>
+            </div>
+            <div style="text-align: right; font-size: 9px; color: #334155; line-height: 1.35;">
+                <p style="margin: 0;">Coimbatore, Tamil Nadu | +91-94875 40741</p>
+                <p style="margin: 0;">ahilhussain67@gmail.com</p>
+                <p style="margin: 0;">linkedin.com/in/ahil-hussain-45515b2a4 | github.com/ahilhussain67-ui</p>
+            </div>
+        </div>
+
+        <!-- Career Objective -->
+        <div style="margin-bottom: 8px;">
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 3px 0;">Career Objective</h2>
+            <p style="font-size: 9px; color: #334155; line-height: 1.35; margin: 0;">
+                Enthusiastic and self-motivated Computer Science Engineering student with a strong interest in web development and backend systems. Skilled in building scalable, clean, and efficient applications with a focus on problem-solving and continuous learning, seeking an entry-level Software Engineer role to contribute to real-world projects and open-source development.
+            </p>
+        </div>
+
+        <!-- Education -->
+        <div style="margin-bottom: 8px;">
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 4px 0;">Education</h2>
+            <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                <span>Hindusthan College of Engineering and Technology</span>
+                <span>2023 - 2027</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 8.5px; color: #475569; margin-top: 1px;">
+                <span>Bachelor of Engineering, Computer Science • Coimbatore, Tamil Nadu</span>
+                <span><strong>CGPA: 7.20 / 10</strong></span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 700; color: #0f172a; margin-top: 4px;">
+                <span>Vetri Vikaas Public School (CBSE)</span>
+                <span>2020 - 2023</span>
+            </div>
+            <div style="font-size: 8.5px; color: #475569; margin-top: 1px;">
+                <span>HSC: 63% • SSLC: 77%</span>
+            </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div style="margin-bottom: 8px;">
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 4px 0;">Technical Skills</h2>
+            <table style="width: 100%; font-size: 9px; border-collapse: collapse; color: #334155;">
+                <tr>
+                    <td style="width: 22%; font-weight: 700; padding: 1px 0; color: #0f172a;">Languages:</td>
+                    <td style="padding: 1px 0;">Java, HTML</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 700; padding: 1px 0; color: #0f172a;">Focus Areas:</td>
+                    <td style="padding: 1px 0;">Web Development, Backend Basics</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 700; padding: 1px 0; color: #0f172a;">Core Concepts:</td>
+                    <td style="padding: 1px 0;">Coding & Problem Solving, Data Analysis (Beginner)</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 700; padding: 1px 0; color: #0f172a;">Languages Spoken:</td>
+                    <td style="padding: 1px 0;">English, Tamil</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Experience -->
+        <div style="margin-bottom: 8px;">
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 4px 0;">Experience</h2>
+            <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                <span>Java Intern — Emglitz</span>
+                <span>Internship</span>
+            </div>
+            <ul style="margin: 2px 0 0 0; padding-left: 14px; font-size: 8.5px; color: #334155; line-height: 1.35;">
+                <li>Participated in a Java-based development internship covering OOP principles, backend basics, and practical coding exercises.</li>
+            </ul>
+        </div>
+
+        <!-- Projects -->
+        <div style="margin-bottom: 8px;">
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 4px 0;">Projects</h2>
+            
+            <!-- Project 1 -->
+            <div style="margin-bottom: 5px;">
+                <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                    <span>Smart Grievance Management System</span>
+                    <span>Jan 2025 – Aug 2025</span>
+                </div>
+                <p style="font-size: 8.5px; color: #059669; font-weight: 600; margin: 1px 0 2px 0;">Web-based platform for public complaint submission and tracking</p>
+                <ul style="margin: 0; padding-left: 14px; font-size: 8.5px; color: #334155; line-height: 1.35;">
+                    <li>Developed a web-based platform for submitting, tracking, and resolving public complaints.</li>
+                    <li>Implemented real-time status updates, geotagged photo evidence, and admin dashboards.</li>
+                    <li>Integrated secure authentication, database management, and automated notifications to improve resolution efficiency.</li>
+                </ul>
+            </div>
+
+            <!-- Project 2 -->
+            <div>
+                <div style="display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 700; color: #0f172a;">
+                    <span>Blood Donor Library System</span>
+                    <span>Feb 2026 – May 2026</span>
+                </div>
+                <p style="font-size: 8.5px; color: #059669; font-weight: 600; margin: 1px 0 2px 0;">Web application for blood donor records and emergency contact access</p>
+                <ul style="margin: 0; padding-left: 14px; font-size: 8.5px; color: #334155; line-height: 1.35;">
+                    <li>Built a web application to manage blood donor records and emergency contact access.</li>
+                    <li>Enabled donor search by blood group and location for faster response.</li>
+                    <li>Implemented user registration, database integration, and admin management features.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Certifications -->
+        <div>
+            <h2 style="font-size: 10.5px; font-weight: 700; color: #0b1120; text-transform: uppercase; border-bottom: 1px solid #cbd5e1; padding-bottom: 2px; margin: 0 0 3px 0;">Achievements & Certifications</h2>
+            <ul style="margin: 0; padding-left: 14px; font-size: 8.5px; color: #334155; line-height: 1.35;">
+                <li><strong>Java Intern:</strong> Emglitz (Java-based development internship)</li>
+                <li><strong>NPTEL Certification:</strong> Cloud Computing</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Project Modal Logic
+        const projectData = {
+            grievance: {
+                title: "Smart Grievance Management System",
+                duration: "Jan 2025 - Aug 2025",
+                summary: "A web-based platform designed to streamline public complaint submission, tracking, and admin resolution workflows.",
+                bullets: [
+                    "Developed public complaint submission workflow with real-time status tracking.",
+                    "Added geotagged photo evidence upload and verification.",
+                    "Built administrative dashboards for streamlined assignment and status progression.",
+                    "Integrated secure authentication and automated notification triggers."
+                ]
+            },
+            blood: {
+                title: "Blood Donor Library System",
+                duration: "Feb 2026 - May 2026",
+                summary: "An emergency-focused web application facilitating donor record management and rapid contact location matching.",
+                bullets: [
+                    "Built donor search engine filterable by blood group and proximity/location.",
+                    "Implemented secure user registration and donor profile management.",
+                    "Integrated relational database structures for reliable donor directory access.",
+                    "Developed administrative features for record verification and user oversight."
+                ]
+            }
+        };
+
+        function openProjectModal(key) {
+            const data = projectData[key];
+            if (!data) return;
+
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-duration').innerText = data.duration;
+            document.getElementById('modal-summary').innerText = data.summary;
+
+            const bulletsContainer = document.getElementById('modal-bullets');
+            bulletsContainer.innerHTML = '';
+            data.bullets.forEach(b => {
+                const li = document.createElement('li');
+                li.innerText = b;
+                bulletsContainer.appendChild(li);
+            });
+
+            document.getElementById('project-modal').classList.remove('hidden');
+            document.getElementById('project-modal').classList.add('flex');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+            document.getElementById('project-modal').classList.remove('flex');
+        }
+
+        // Contact Form Submission Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            
+            // Show toast message
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = `Thank you, ${name}! Your message has been sent.`;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+
+            // Reset form
+            document.getElementById('contact-form').reset();
+        }
+    </script>
+</body>
+</html>
